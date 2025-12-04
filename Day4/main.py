@@ -1,5 +1,6 @@
-def paper_cleaning_operation(sequence: list[str]) -> int:
+def paper_cleaning_operation(sequence: list[str], is_remembering_where=False) -> (int, list[int, int]) or int:
     output = 0
+    paper_is_cleared_position = []
     for y in range(len(sequence)):
         for x in range(len(sequence[y])):
             if sequence[y][x] == '.':
@@ -17,12 +18,22 @@ def paper_cleaning_operation(sequence: list[str]) -> int:
                     
                     if sequence[y+k][x+l] == '@':
                         count_paper += 1
+                        
             
             if count_paper < 4:
                 output += 1
-
+                paper_is_cleared_position.append([y, x])
+    
+    if is_remembering_where:
+        return output, paper_is_cleared_position
     return output
-                    
+
+
+def clear_papers(sequence: list[str], positions: list[list[int]]) -> list[str]:
+    for position in positions:
+        sequence[position[0]] = sequence[position[0]][:position[1]] + '.' + sequence[position[0]][position[1]+1:]
+
+    return sequence
 
 
 if __name__ == '__main__':
@@ -33,5 +44,15 @@ if __name__ == '__main__':
         for line in lines:
             sequences.append(line)
     
-    print(paper_cleaning_operation(sequences))
+    output = 0
+    while True:
+        amount_of_paper, positions = paper_cleaning_operation(
+            sequence=sequences,
+            is_remembering_where=True
+        )
+        if amount_of_paper == 0:
+            break
+        output += amount_of_paper
+        sequences = clear_papers(sequences, positions)
     
+    print(output)
