@@ -1,23 +1,19 @@
-def find_the_highest_combination(sequence: str) -> int:
-    largest_first_digit = 0
-    index_of_first_digit_in_sequence = 0
-    largest_second_digit = 0
-    sequence_length = len(sequence)
+from itertools import combinations
 
-    # Find first biggest digit in sequnece (except last number)
-    for i in range(sequence_length-1):
-        current_digit = int(sequence[i])
-        if current_digit > largest_first_digit:
-            largest_first_digit = current_digit
-            index_of_first_digit_in_sequence = i
+def find_the_highest_combination(sequence: str, max_digit=2) -> int:
+    list_of_sequence = [int(digit) for digit in sequence]
+    output = 0
+    current_index = -1
+    for current_digit in range(max_digit):
+        local_max_digit = 0
+        for i in range(current_index+1, len(sequence)-max_digit+current_digit+1):
+            if list_of_sequence[i] > local_max_digit:
+                local_max_digit = list_of_sequence[i]
+                current_index = i
 
-    # Find second biggest digit in sequence (continue from first digit)
-    for i in range(index_of_first_digit_in_sequence+1, sequence_length):
-        current_digit = int(sequence[i])
-        if current_digit > largest_second_digit:
-            largest_second_digit = current_digit
-    
-    return largest_first_digit * 10 + largest_second_digit
+        output += local_max_digit * 10 ** (max_digit-current_digit-1)
+
+    return output
 
 if __name__ == '__main__':
     sequences: list[list[str]] = []
@@ -29,6 +25,6 @@ if __name__ == '__main__':
 
     total_output = 0
     for sequence in sequences:
-        total_output += find_the_highest_combination(sequence)
+        total_output += find_the_highest_combination(sequence, max_digit=12)
 
     print(total_output)
