@@ -1,4 +1,5 @@
-from main import is_this_number_inside_of_ranges
+from main import is_this_number_inside_of_ranges, \
+    find_all_number_inside_of_ranges
 
 def test_example():
     ranges = [[3, 5], [10, 14], [16, 20], [12, 18]]
@@ -9,3 +10,5 @@ def test_example():
     assert is_this_number_inside_of_ranges(ranges, 11) == True
     assert is_this_number_inside_of_ranges(ranges, 17) == True
     assert is_this_number_inside_of_ranges(ranges, 32) == False
+
+    assert find_all_number_inside_of_ranges(ranges) == 14

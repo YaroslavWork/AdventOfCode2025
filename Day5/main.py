@@ -9,6 +9,32 @@ def is_this_number_inside_of_ranges(
 
     return False
 
+
+def find_all_number_inside_of_ranges(ranges: list[list[int, int]]) -> int:
+    sorted_and_expanded_ranges = []
+
+    for i in range(len(ranges)):
+        start_id = 0
+
+        is_added = False
+        for j in range(len(sorted_and_expanded_ranges)):
+            if sorted_and_expanded_ranges[j][0] <= ranges[i][0] <= \
+                sorted_and_expanded_ranges[j][1]:
+                start_id = j
+                is_added = True
+            
+        for j in range(start_id, len(sorted_and_expanded_ranges)):
+            if sorted_and_expanded_ranges[j][0] <= ranges[i][1] <= \
+                sorted_and_expanded_ranges[j][1]:
+                finish
+
+            
+        if not is_added:
+            sorted_and_expanded_ranges.append(ranges[i])
+            
+        
+
+
 if __name__ == '__main__':
     ranges: list[list[int, int]] = [] # Ranges 1. from; 2. to (includes)
     ids: list[int] = []
@@ -31,4 +57,4 @@ if __name__ == '__main__':
     for current_id in ids:
         sum_id += is_this_number_inside_of_ranges(ranges, current_id)
 
-    print(sum_id)
+    print(f"First half - {sum_id}")
